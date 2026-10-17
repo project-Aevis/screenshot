@@ -1,0 +1,15 @@
+[Desktop Entry]
+Name=Screenshot
+Name[zh_CN]=截图
+GenericName=Screenshot Tool
+Comment=Project Aevis Screenshot Utility
+Exec=/usr/bin/aevis-screenshot
+TryExec=aevis-screenshot
+Icon=aevis-screenshot
+Terminal=false
+Type=Application
+StartupNotify=true
+StartupWMClass=aevis-screenshot
+Categories=Utility;Graphics;
+X-KDE-DBUS-Restricted-Interfaces=org.kde.KWin.ScreenShot2
+
