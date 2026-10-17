@@ -2,9 +2,11 @@
 Name=Screenshot
 Name[zh_CN]=截图
 Exec=/usr/bin/cutefish-screenshot
-Icon=cutefish-screenshot
+Icon=aevis-screenshot
 Terminal=false
 Type=Application
 StartupNotify=true
-Categories=Settings;
+NoDisplay=true
+StartupWMClass=aevis-screenshot
+Categories=Settings;Utility;Graphics;
 X-KDE-DBUS-Restricted-Interfaces=org.kde.KWin.ScreenShot2

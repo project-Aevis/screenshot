@@ -1,7 +1,9 @@
 /*
  * Copyright (C) 2021 CutefishOS Team.
+ * Copyright (C) 2026 Project Aevis Contributors.
  *
  * Author:     Reion Wong <reionwong@gmail.com>
+ * Author:     Project Aevis Contributors
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -211,10 +213,12 @@ ScreenshotView::ScreenshotView(QQuickView *parent)
     engine()->addImageProvider(QStringLiteral("screenshot"), m_imageProvider);
     rootContext()->setContextProperty(QStringLiteral("view"), this);
 
-    setFlags(Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint);
+    setFlags(Qt::FramelessWindowHint);
     setColor(Qt::transparent);
     setScreen(qGuiApp->primaryScreen());
     setResizeMode(QQuickView::SizeRootObjectToView);
+    setIcon(QIcon::fromTheme(QStringLiteral("aevis-screenshot")));
+    setTitle(QStringLiteral("Screenshot"));
     if (screen()) {
         setGeometry(screen()->geometry());
     }
@@ -376,7 +380,7 @@ void ScreenshotView::start()
     m_capturedImage = captureScreen();
 
     if (m_capturedImage.isNull()) {
-        qWarning() << "Cutefish Screenshot: Unable to capture screen from any backend!";
+        qWarning() << "Screenshot: Unable to capture screen from any backend!";
         qGuiApp->quit();
         return;
     }
@@ -386,6 +390,7 @@ void ScreenshotView::start()
     // Save temporary file in background for backwards compatibility / external tools
     QImage copy = m_capturedImage;
     QThreadPool::globalInstance()->start([copy]() {
+        copy.save(QStringLiteral("/tmp/aevis-screenshot.png"), "PNG");
         copy.save(QStringLiteral("/tmp/cutefish-screenshot.png"), "PNG");
     });
 
@@ -468,10 +473,13 @@ void ScreenshotView::saveFile(QRect rect)
                              QStringLiteral("org.freedesktop.Notifications"),
                              QDBusConnection::sessionBus());
         if (iface.isValid()) {
+            QString iconName = QIcon::hasThemeIcon(QStringLiteral("aevis-screenshot"))
+                                   ? QStringLiteral("aevis-screenshot")
+                                   : QStringLiteral("cutefish-screenshot");
             QList<QVariant> args;
-            args << QStringLiteral("cutefish-screenshot");
+            args << QStringLiteral("aevis-screenshot");
             args << ((unsigned int) 0);
-            args << QStringLiteral("cutefish-screenshot");
+            args << iconName;
             args << QString();
             args << tr("The picture has been saved to %1 and copied to clipboard").arg(fileName);
             args << QStringList();
@@ -491,7 +499,9 @@ void ScreenshotView::copyToClipboard(QRect rect)
 
     QImage image = m_capturedImage;
     if (image.isNull()) {
-        image.load(QStringLiteral("/tmp/cutefish-screenshot.png"));
+        if (!image.load(QStringLiteral("/tmp/aevis-screenshot.png"))) {
+            image.load(QStringLiteral("/tmp/cutefish-screenshot.png"));
+        }
     }
     if (image.isNull() && screen()) {
         QPixmap p = screen()->grabWindow(0);
@@ -514,10 +524,13 @@ void ScreenshotView::copyToClipboard(QRect rect)
                          QStringLiteral("org.freedesktop.Notifications"),
                          QDBusConnection::sessionBus());
     if (iface.isValid()) {
+        QString iconName = QIcon::hasThemeIcon(QStringLiteral("aevis-screenshot"))
+                               ? QStringLiteral("aevis-screenshot")
+                               : QStringLiteral("cutefish-screenshot");
         QList<QVariant> args;
-        args << QStringLiteral("cutefish-screenshot");
+        args << QStringLiteral("aevis-screenshot");
         args << ((unsigned int) 0);
-        args << QStringLiteral("cutefish-screenshot");
+        args << iconName;
         args << QString();
         args << tr("The picture has been saved to the clipboard");
         args << QStringList();
@@ -533,5 +546,6 @@ void ScreenshotView::copyToClipboard(QRect rect)
 
 void ScreenshotView::removeTmpFile()
 {
+    QFile(QStringLiteral("/tmp/aevis-screenshot.png")).remove();
     QFile(QStringLiteral("/tmp/cutefish-screenshot.png")).remove();
 }

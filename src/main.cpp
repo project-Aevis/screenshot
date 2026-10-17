@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2021 CutefishOS Team.
+ * Copyright (C) 2026 Project Aevis Contributors.
  *
  * Author:     Reion Wong <reionwong@gmail.com>
  *
@@ -50,25 +51,29 @@ int main(int argc, char *argv[])
     qputenv("QSG_RENDER_LOOP", "basic");
 
     QApplication app(argc, argv);
+    app.setApplicationName(QStringLiteral("aevis-screenshot"));
+    app.setDesktopFileName(QStringLiteral("aevis-screenshot"));
+    app.setOrganizationName(QStringLiteral("aevis"));
+    app.setWindowIcon(QIcon::fromTheme(QStringLiteral("aevis-screenshot")));
 
     QCommandLineOption delayOption(QStringList() << "d" << "delay", "Delay Screenshot", "NUM");
     QCommandLineOption areaOption(QStringList() << "a" << "area", "Capture Area");
     QCommandLineOption fullOption(QStringList() << "f" << "fullscreen", "Capture Fullscreen");
 
     QCommandLineParser parser;
-    parser.setApplicationDescription("Cutefish Screenshot");
+    parser.setApplicationDescription(QStringLiteral("Project Aevis Screenshot"));
     parser.addHelpOption();
     parser.addOption(delayOption);
     parser.addOption(areaOption);
     parser.addOption(fullOption);
     parser.process(app);
 
-    if (!QDBusConnection::sessionBus().registerService("com.cutefish.Screenshot")) {
-        app.exit();
-        return 0;
-    }
+    QDBusConnection bus = QDBusConnection::sessionBus();
+    bus.registerService(QStringLiteral("org.aevis.Screenshot"));
+    bus.registerService(QStringLiteral("com.cutefish.Screenshot"));
 
     const QStringList searchPaths = {
+        QStringLiteral("/usr/share/aevis-screenshot/translations/"),
         QStringLiteral("/usr/share/cutefish-screenshot/translations/"),
         QStringLiteral("/usr/local/share/cutefish-screenshot/translations/"),
         QDir::homePath() + QStringLiteral("/.local/share/cutefish-screenshot/translations/")

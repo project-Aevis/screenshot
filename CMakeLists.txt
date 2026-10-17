@@ -10,6 +10,7 @@ set(CMAKE_AUTORCC ON)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+include(GNUInstallDirs)
 
 find_package(Qt6 COMPONENTS Core DBus Gui Widgets Quick LinguistTools REQUIRED)
 
@@ -38,11 +39,15 @@ add_custom_target(translations DEPENDS ${QM_FILES} SOURCES ${TS_FILES})
 add_dependencies(cutefish-screenshot translations)
 
 install(FILES ${QM_FILES} DESTINATION /usr/share/cutefish-screenshot/translations)
+install(FILES ${QM_FILES} DESTINATION /usr/share/aevis-screenshot/translations)
 
 install(TARGETS cutefish-screenshot RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 install(FILES
     cutefish-screenshot.desktop
+    aevis-screenshot.desktop
     DESTINATION /usr/share/applications/
     COMPONENT Runtime
 )
+
+install(CODE "execute_process(COMMAND \${CMAKE_COMMAND} -E create_symlink cutefish-screenshot \$ENV{DESTDIR}\${CMAKE_INSTALL_FULL_BINDIR}/aevis-screenshot)")

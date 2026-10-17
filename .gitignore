@@ -1,21 +1,52 @@
-# C++ objects and libs
+# ==============================================================================
+# Build Directories & CMake Artifacts
+# ==============================================================================
+build/
+build-*/
+*build-*/
+build.*/
+_build/
+bin/
+out/
+CMakeFiles/
+CMakeCache.txt
+CMakeScripts/
+Testing/
+Makefile
+Makefile*
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_deps/
+CMakeUserPresets.json
+CMakeLists.txt.user*
+*-prefix/
+
+# ==============================================================================
+# C/C++ Compiled Objects, Binaries & Libraries
+# ==============================================================================
 *.slo
 *.lo
 *.o
+*.obj
 *.a
 *.la
 *.lai
 *.so
 *.so.*
-*.dll
 *.dylib
+*.dll
+*.exe
 
-# Qt-es
+# ==============================================================================
+# Qt & QML Generated Files
+# ==============================================================================
 object_script.*.Release
 object_script.*.Debug
 *_plugin_import.cpp
-/.qmake.cache
-/.qmake.stash
+.qmake.cache
+.qmake.stash
 *.pro.user
 *.pro.user.*
 *.qbs.user
@@ -27,28 +58,46 @@ qrc_*.cpp
 ui_*.h
 *.qmlc
 *.jsc
-Makefile*
-*build-*
 *.qm
 *.prl
-
-# Qt unit tests
+.qt/
 target_wrapper.*
 
-# QtCreator
-*.autosave
+# ==============================================================================
+# IDEs, Editors & Tooling
+# ==============================================================================
+# JetBrains / Android Studio / IntelliJ / CLion
+.idea/
+*.iws
+*.iml
 
-# QtCreator Qml
+# VS Code
+.vscode/
+
+# Qt Creator
+*.autosave
 *.qmlproject.user
 *.qmlproject.user.*
-
-# QtCreator CMake
-CMakeLists.txt.user*
-
-# QtCreator 4.8< compilation database 
-compile_commands.json
-
-# QtCreator local machine specific files for imported projects
 *creator.user*
+*.user
 
-/build/*
+# Vim & Temporary Files
+*.swp
+*.swo
+*~
+.cache/
+__pycache__/
+*.pyc
+
+# Logs & Scratch
+*.log
+
+# ==============================================================================
+# Operating System & File System Junk
+# ==============================================================================
+.DS_Store
+Thumbs.db
+.directory
+.fuse_hidden*
+.Trash-*
+.nfs*
