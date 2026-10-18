@@ -1,30 +1,40 @@
-# Screenshot
+# Aevis Screenshot
 
-Screenshot tool for CutefishOS.
+Interactive screenshot and screen capture tool for the Aevis Desktop Environment.
+
+Part of the **[Project Aevis](https://github.com/project-Aevis)** suite.
+
+## Features
+
+- Full screen, active window, or freeform rectangular area capture
+- Annotation tools: shapes, arrows, blur/pixelate region, text tool
+- Quick copy to clipboard, save to file, or open in photo viewer
+- Global hotkey shortcut integration
 
 ## Dependencies
 
-Arch / Manjaro Dependencies:
+### Debian / Ubuntu
 
 ```shell
-sudo pacman -S extra-cmake-modules qt5-base qt5-quickcontrols2
+sudo apt install cmake qt6-base-dev qt6-declarative-dev
 ```
 
-Debian / Ubuntu Dependencies:
+### Arch Linux
+
 ```shell
-sudo apt install cmake qtbase5-dev qtdeclarative5-dev qtquickcontrols2-5-dev qttools5-dev qttools5-dev-tools qml-module-qtquick-controls2 qml-module-qtquick2 qml-module-qtquick-layouts qml-module-qt-labs-platform qml-module-qt-labs-settings qml-module-qtqml qml-module-qtquick-window2 qml-module-qtquick-shapes qml-module-qtquick-dialogs qml-module-qtquick-particles2
+sudo pacman -S extra-cmake-modules qt6-base qt6-declarative
 ```
 
-## Build
+## Build and Install
 
 ```shell
 mkdir build
 cd build
-cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr ..
+cmake -DCMAKE_INSTALL_PREFIX=/usr ..
 make
 sudo make install
 ```
 
 ## License
 
-This project has been licensed by GPLv3.
+This project is licensed under the GNU General Public License v3.0 (GPLv3).
